@@ -1,0 +1,25 @@
+{
+  "name": "xmas-css-postcard",
+  "version": "0.0.1",
+  "description": "Xmas Postcard with css",
+  "private": "true",
+  "keywords": [
+    "stylus",
+    "xmas",
+    "css3"
+  ],
+  "scripts": {
+    "test": "echo \"Hello\" && exit 1",
+    "gulp": "./node_modules/.bin/gulp",
+    "dev": "gulp dev"
+  },
+  "devDependencies": {
+    "browser-sync": "latest",
+    "gulp": "latest",
+    "gulp-clean": "^0.3.1",
+    "gulp-stylus": "latest",
+    "gulp-util": "latest",
+	"gulp-rename": "latest",
+	"del": "latest"
+  }
+}
