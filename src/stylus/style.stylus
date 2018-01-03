@@ -1,0 +1,165 @@
+:root {
+  --tree-bg-color: #0E4749;
+  --main-bg-color: #002626;
+  --ball1-bg-color: #e0a890;
+  --ball2-bg-color: #129490;
+  --ball3-bg-color: #70b77e; 
+}
+
+$tree_layer_1_size = 200
+$tree_layer_2_size = 300
+$tree_layer_3_size = 400
+
+$ball1_bg_color = #95C623
+$ball2_bg_color = #E55812
+$ball3_bg_color = #9f9d98
+
+random(min,max)
+  return floor(math(0, 'random')*(max - min + 1) + min)
+
+body {
+  background: var(--main-bg-color)
+  position: absolute
+  top: 50px
+  bottom: 0
+  left: 0
+  right: 0
+  overflow: none
+}
+.tree {
+  display: flex
+  flex-direction: column
+  align-items: center
+  height: (($tree_layer_1_size + $tree_layer_2_size + $tree_layer_3_size) / 2)px
+  position: relative
+}
+.layer {
+  position: relative
+  border-style: solid
+  border-radius: 0%
+  box-sizing: border-box
+}
+
+$tree_layer_size = $tree_layer_1_size, $tree_layer_2_size, $tree_layer_3_size
+
+for i in (1..3) 
+    .layer-{i} {
+     $size = $tree_layer_size[i - 1] / 2
+     border-color: transparent transparent var(--tree-bg-color) transparent;
+     z-index: i
+     border-width: ($size)px ($size)px ($size)px ($size)px
+     width: ($size)px;
+     height: ($size)px;
+    }
+
+
+.layer-1 {
+  top: -($tree_layer_size[0] / 2)px
+}
+
+.layer-2 {
+  top: -($tree_layer_size[1] / 2 * 1.3 + $tree_layer_size[0] / 2)px
+}
+
+.layer-3 {
+   top: -($tree_layer_size[2] / 2 * 1.3 + $tree_layer_size[0] / 2 + 1.3 * $tree_layer_size[1] / 2)px
+}
+
+.ball {
+  width: 30px
+  height: 30px
+  border-radius: 100%
+  position: absolute
+  z-index: 100
+}
+
+.ball::after {
+  content: '\2726'
+  color: #fff
+  position: relative
+  top: -5px
+  opacity: 0
+}
+
+@keyframes blink {
+  0%, 100% {opacity: 0}
+  50% {opacity: 1}
+}
+
+$ranges = $tree_layer_1_size / 2, $tree_layer_2_size / 2, $tree_layer_3_size / 2
+$tops = 25, 80, 200, 300
+$lefts = 25, 70, 40, 120, 60, 170 
+for h in (1..3)
+    for i in (1..5)
+        $bg = $ball1_bg_color, $ball2_bg_color, $ball3_bg_color, $ball1_bg_color, $ball3_bg_color
+        $top = random($tops[h - 1], $tops[h])
+        $lpct = ($top - $tops[h - 1]) / ($tops[h] - $tops[h - 1])
+        $left = $lefts[2 * h - 2] + $lpct * ($lefts[2 * h - 1] - $lefts[2 * h - 2])
+        $coef = random(0, 10) > 5 ? 1 : -1;
+        $rnd_left = random(0, $left);
+        .ball-{h}{i} {
+           top: ($top)px
+           background: $bg[i - 1]
+           color: random(0, 9)
+           left: "calc(50% + %spx)" % ($coef * $rnd_left)   
+        }
+        .ball-{h}{i}::after {
+         animation: blink (random(4, 10))s (random(1, 7))s infinite ease-in-out
+        }
+
+
+.snowflake {
+  width: 20px
+  height: 20px
+  border-radius: 100%
+  background: white
+  position: absolute
+  top: -200px
+}
+
+$num_of_snowflakes = 50
+
+for i in (1..$num_of_snowflakes)
+  @keyframes flake-animation-{i} {
+    $n = 100 / $num_of_snowflakes * i
+
+    0% {
+      top: -200px;
+      left: "calc(%s%)" % ($n);
+    }
+    20% {
+      left: "calc(%s% - 10px)" % ($n);
+    }
+    30% {
+      left: "calc(%s% + 10px)" % ($n);
+    }
+    60% {
+      top: 70%;
+      left: "calc(%s%)" % ($n);;
+    }
+    100% {
+      top: 90%;
+      opacity: 0;
+    }
+ }
+
+
+for i in (1..$num_of_snowflakes)
+    .flakes-{i} {
+       $n = 100 / $num_of_snowflakes * i
+       $size = random(3, 21)
+       $animation_style = ease ease-in-out ease-in
+       width: $size px
+       height: $size px
+       left: ($n) %
+       animation: "flake-animation-%s" % (i) (random(5, 50))s (random(0, 3))s ($animation_style[random(1, 3)]) infinite
+    }
+    
+    
+.xmas {
+  font-family: "Comic Sans MS", Arial, Helvetica, sans-serif
+  font-size: 50px
+  color: #EFE7DA
+  text-align: center;
+}
+
